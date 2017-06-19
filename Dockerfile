@@ -7,6 +7,7 @@ ENV TENGINE_VERSION 2.2.0
 
 # nginx: https://git.io/vSIyj
 
+
 ENV CONFIG "\
 	--prefix=/usr/local/nginx \
 	--pid-path=/var/run/nginx.pid \
@@ -97,7 +98,8 @@ RUN curl -L "http://tengine.taobao.org/download/tengine-$TENGINE_VERSION.tar.gz"
 	&& apk add --no-cache --virtual .nginx-rundeps $runDeps \
 	&& apk del .build-deps \
 	&& apk del .gettext \
-	&& mv /tmp/envsubst /usr/local/bin/ 
+	&& mv /tmp/envsubst /usr/local/bin/ \
+        && mv /usr/local/nginx/conf /mnt/ 
 #	\
 	# forward request and error logs to docker log collector
 #	&& ln -sf /dev/stdout /usr/local/nginx/logs/access.log \
@@ -108,10 +110,13 @@ COPY nginx.conf /usr/local/nginx/conf/nginx.conf
 COPY proxy_params /usr/local/nginx/conf/proxy_params
 COPY nginx.vh.default.conf /usr/local/nginx/conf/vhost/default.conf
 COPY example /usr/local/nginx/conf/vhost/example
+COPY script /script
+RUN chmod +x /script/start.sh
 
 
-#VOLUME ["/usr/local/nginx/logs","/usr/local/nginx/conf"]
+VOLUME ["/usr/local/nginx/logs","/usr/local/nginx/conf"]
 
 EXPOSE 80 443
 
-CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
+#CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
+CMD ["/script/start.sh"]
