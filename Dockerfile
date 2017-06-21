@@ -106,10 +106,10 @@ RUN curl -L "http://tengine.taobao.org/download/tengine-$TENGINE_VERSION.tar.gz"
 #	&& ln -sf /dev/stderr /usr/local/nginx/logs/error.log
 
 
-COPY nginx.conf /usr/local/nginx/conf/nginx.conf
-COPY proxy_params /usr/local/nginx/conf/proxy_params
-COPY nginx.vh.default.conf /usr/local/nginx/conf/vhost/default.conf
-COPY example /usr/local/nginx/conf/vhost/example
+COPY nginx.conf /mnt/conf/nginx.conf
+COPY proxy_params /mnt/conf/proxy_params
+COPY nginx.vh.default.conf /mnt/conf/vhost/default.conf
+COPY example /mnt/conf/vhost/example
 COPY script /script
 RUN chmod +x /script/start.sh
 
