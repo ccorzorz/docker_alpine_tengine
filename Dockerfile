@@ -1,9 +1,9 @@
-FROM alpine:3.5
+FROM alpine:3.7
 # alpine:latest
 
-MAINTAINER Shane.Cheng ccniubi@163.com ( http://github.com/kairyou/ )
+MAINTAINER Shane.Cheng ccniubi@163.com ( http://github.com/ccorzorz/ )
 
-ENV TENGINE_VERSION 2.2.0
+ENV TENGINE_VERSION 2.2.2
 
 # nginx: https://git.io/vSIyj
 
