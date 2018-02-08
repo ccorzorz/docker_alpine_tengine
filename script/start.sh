@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -x
 
 FILE="/usr/local/nginx/conf/mime.types"
 count=`ls /usr/local/nginx/conf | wc -l`

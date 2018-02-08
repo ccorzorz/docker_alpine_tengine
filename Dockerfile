@@ -114,7 +114,7 @@ COPY script /script
 RUN chmod +x /script/start.sh
 
 
-VOLUME ["/usr/local/nginx/logs","/usr/local/nginx/conf"]
+#VOLUME ["/usr/local/nginx/logs","/usr/local/nginx/conf"]
 
 EXPOSE 80 443
 
