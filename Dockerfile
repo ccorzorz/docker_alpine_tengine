@@ -72,8 +72,8 @@ RUN curl -L "http://tengine.taobao.org/download/tengine-$TENGINE_VERSION.tar.gz"
 	&& ./configure $CONFIG \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
-	&& mkdir /usr/local/nginx/conf/vhost/ \
-#	&& mkdir -p /usr/local/nginx/logs \
+	&& mkdir -p /usr/local/nginx/conf/vhost/ \
+	&& mkdir -p /usr/local/nginx/logs \
 	&& mkdir -p /website/html \
         && install -m644 html/index.html /website/html/ \
         && install -m644 html/50x.html /website/html/ \
