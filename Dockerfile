@@ -3,7 +3,7 @@ FROM alpine:3.7
 
 MAINTAINER Shane.Cheng ccniubi@163.com ( http://github.com/ccorzorz/ )
 
-ENV TENGINE_VERSION 2.2.2
+ENV TENGINE_VERSION 2.1.2
 
 # nginx: https://git.io/vSIyj
 
