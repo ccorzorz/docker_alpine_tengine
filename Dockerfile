@@ -3,7 +3,7 @@ FROM alpine:3.7
 
 MAINTAINER Shane.Cheng ccniubi@163.com ( http://github.com/ccorzorz/ )
 
-ENV TENGINE_VERSION 2.1.2
+ENV TENGINE_VERSION 2.2.0
 
 # nginx: https://git.io/vSIyj
 
@@ -44,7 +44,7 @@ ENV CONFIG "\
 # Modify respository and localtime of alpine
 RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \ 
      apk update && \
-     apk add tzdata && \
+     apk add tzdata coreutils && \
      ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
      echo "Asia/Shanghai" > /etc/timezone
 
@@ -99,7 +99,9 @@ RUN curl -L "http://tengine.taobao.org/download/tengine-$TENGINE_VERSION.tar.gz"
 	&& apk del .build-deps \
 	&& apk del .gettext \
 	&& mv /tmp/envsubst /usr/local/bin/ \
-        && mv /usr/local/nginx/conf /mnt/ 
+        && mv /usr/local/nginx/conf /mnt/ \
+	&& echo "01 * * * * /ngx_log_cut.sh" > /var/spool/cron/crontabs/root \
+	&& mkdir /nginx_oldlogs
 #	\
 	# forward request and error logs to docker log collector
 #	&& ln -sf /dev/stdout /usr/local/nginx/logs/access.log \
@@ -111,12 +113,12 @@ COPY proxy_params /mnt/conf/proxy_params
 COPY nginx.vh.default.conf /mnt/conf/vhost/default.conf
 COPY example /mnt/conf/vhost/example
 COPY script /script
-RUN chmod +x /script/start.sh
+RUN chmod +x /script/* && mv /script/ngx_log_cut.sh /
 
 
-VOLUME ["/usr/local/nginx/logs","/usr/local/nginx/conf"]
+VOLUME ["/usr/local/nginx/logs","/usr/local/nginx/conf","/nginx_oldlogs"]
 
 EXPOSE 80 443
 
 #CMD ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
-CMD ["/script/start.sh"]
+CMD /usr/sbin/crond && /script/start.sh
