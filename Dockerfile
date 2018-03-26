@@ -100,7 +100,7 @@ RUN curl -L "http://tengine.taobao.org/download/tengine-$TENGINE_VERSION.tar.gz"
 	&& apk del .gettext \
 	&& mv /tmp/envsubst /usr/local/bin/ \
         && mv /usr/local/nginx/conf /mnt/ \
-	&& echo "01 * * * * /ngx_log_cut.sh" > /var/spool/cron/crontabs/root \
+	&& echo "0 0 * * * /ngx_log_cut.sh" > /var/spool/cron/crontabs/root \
 	&& mkdir /nginx_oldlogs
 #	\
 	# forward request and error logs to docker log collector
